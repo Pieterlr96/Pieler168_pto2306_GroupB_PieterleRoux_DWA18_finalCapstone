@@ -1,17 +1,13 @@
 "use client";
 import React from "react";
-import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import supabase from "@/config/supabaseClient";
 
 export default function AuthPage() {
   const router = useRouter();
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
   supabase.auth.onAuthStateChange( async (event, session) => {
     // console.log(event, session);
 

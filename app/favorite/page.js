@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Context } from "@/State";
 import Fuse from "fuse.js";
@@ -29,10 +29,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import toast from 'react-hot-toast';
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+
 
 export default function Favorite() {
   const {

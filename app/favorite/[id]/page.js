@@ -5,17 +5,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Context } from "@/State";
 import moment from "moment";
 import Player from "@/components/audio-player/player";
 import FavoriteEpisode from "@/components/favorite/favorite-episode";
 import { useRouter } from "next/navigation";
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+
 export default function FavoriteById({ params }) {
   const [reload, setReload] = useState(false);
   const {
