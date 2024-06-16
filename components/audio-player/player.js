@@ -4,7 +4,7 @@ import React, { useState, useContext, useRef, useEffect } from "react";
 import ProgressBar from "./progress-bar";
 import Controls from "./controls";
 import Volume from "./volume";
-import { Context } from "@/State";
+import { Context } from "@/State/stateIndex";
 import Image from "next/image";
 
 function Player() {
