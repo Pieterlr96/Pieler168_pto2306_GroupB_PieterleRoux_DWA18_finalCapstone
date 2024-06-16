@@ -62,7 +62,7 @@ export default function FavoriteByIdForShare({ params }) {
       setFavorite(updatedArray);
     }
     getData(showId);
-  }, [reload,]);
+  }, [reload]);
 
   if (data.length === 0) {
     return (
