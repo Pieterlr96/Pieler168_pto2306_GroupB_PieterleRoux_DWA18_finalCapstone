@@ -1,28 +1,28 @@
-import { Button } from "@/components/appUI/button";
-import React, { useEffect , useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   PlayIcon,
   ChevronRightIcon,
   MagnifyingGlassIcon,
 } from "@radix-ui/react-icons";
-import {
+
+// Dynamically import components using React hooks
+const {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/appUI/carousel";
-import Fuse from 'fuse.js'
-import {
+} = React.lazy(() => import("@/components/appUI/carousel"));
+const {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
   SelectGroup,
-} from "@/components/appUI/select";
-import Link from "next/link";
+} = React.lazy(() => import("@/components/appUI/select"));
 import { Input } from "@/components/appUI/input";
 
 export default function HomePage() {

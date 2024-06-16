@@ -1,6 +1,9 @@
 import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/appUI/button";
+import { useRouter } from 'next/router'; 
+import { createClient } from '@supabase/supabase-js'; 
+
 
 // Dynamic import for client-side rendering
 const DropdownMenu = React.lazy(() =>
@@ -22,19 +25,26 @@ const DropdownMenuTrigger = React.lazy(() =>
   }))
 );
 
-// Dynamic import for client-side rendering
-const useRouter = () => import("next/router").then((mod) => mod.useRouter);
-const createClient = () =>
-  import("@supabase/supabase-js").then((mod) => mod.createClient);
-
-export function ModeToggle({ setUser }) {
-  const [router, setRouter] = React.useState(null);
+function ThemeChangeButton() {
+  const router = useRouter(); // Call useRouter at the top level
   const [supabase, setSupabase] = React.useState(null);
 
   React.useEffect(() => {
-    useRouter().then((router) => setRouter(router));
-    createClient().then((supabase) => setSupabase(supabase));
+    // Removed the routerInstance code since useRouter is now called at the top level
+
+    // For async operations not related to hooks, use an IIFE or directly use promises
+    (async () => {
+      const supabaseInstance = await createClient();
+      setSupabase(supabaseInstance);
+    })();
   }, []);
+
+  return { router, supabase };
+}
+
+
+export function ModeToggle({ setUser }) {
+  const { router, supabase } = useInitialize();
 
   const handleLogout = async () => {
     if (!supabase) return;

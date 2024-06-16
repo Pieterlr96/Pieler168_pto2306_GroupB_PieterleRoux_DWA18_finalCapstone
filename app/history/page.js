@@ -2,17 +2,15 @@ import React, { useEffect, useState, useContext } from "react";
 import { Button } from "@/components/appUI/button";
 import Image from "next/image";
 import Link from "next/link";
-import { PlayIcon} from "@radix-ui/react-icons";
+import { PlayIcon } from "@radix-ui/react-icons";
 import { Context } from "@/State/stateIndex";
-import { useRouter } from "next/navigation";
 import supabase from "@/config/supabaseClient";
 
 export default function HistoryPage() {
-  const router = useRouter();
   const {
-    state: {user },
+    state: { user },
+    dispatch,
   } = useContext(Context);
-  const { dispatch } = useContext(Context);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
@@ -65,12 +63,6 @@ export default function HistoryPage() {
     }
     return "00:00";
   };
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/");
-    }
-  }, [router, user]);
 
   return (
     <div className="pt-24 min-h-[100vh] bg-gray-950">

@@ -1,15 +1,15 @@
 import { Badge } from "@/components/appUI/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/appUI/tabs";
+const { Tabs, TabsContent, TabsList, TabsTrigger } = React.lazy(() =>
+  import("@/components/appUI/tabs")
+);
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import moment from "moment";
-import Player from "@/components/audio-player/player";
 import Episode from "@/components/episode";
 import { Button } from "@/components/appUI/button";
 import { useRouter } from "next/navigation";
 import { waveform } from "ldrs";
-import toast from 'react-hot-toast';
 import supabase from "@/config/supabaseClient"; // Import Supabase client
 waveform.register();
 
@@ -25,7 +25,7 @@ export default function Page({ params }) {
           .from("podcasts")
           .select("*")
           .eq("id", id)
-          .single(); // Assuming each podcast has a unique ID
+          .single(); 
         if (error) {
           console.error("Error fetching podcast data:", error.message);
           throw error;
