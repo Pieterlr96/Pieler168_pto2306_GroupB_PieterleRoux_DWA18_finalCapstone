@@ -1,5 +1,6 @@
+"use Client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import Link from "next/link";
 import Fuse from "fuse.js"; 

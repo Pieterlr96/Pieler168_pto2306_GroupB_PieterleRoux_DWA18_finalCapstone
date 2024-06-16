@@ -1,3 +1,5 @@
+"use Client";
+
 import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/appUI/badge";
 const { Tabs, TabsContent, TabsList, TabsTrigger } = React.lazy(() =>
