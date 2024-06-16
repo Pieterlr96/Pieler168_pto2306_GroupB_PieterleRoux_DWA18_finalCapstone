@@ -10,7 +10,6 @@ import Link from "next/link";
 import moment from "moment";
 import Episode from "@/components/episode";
 import { Button } from "@/components/appUI/button";
-import { useRouter } from "next/navigation";
 import { waveform } from "ldrs";
 import supabase from "@/config/supabaseClient"; 
 waveform.register();
