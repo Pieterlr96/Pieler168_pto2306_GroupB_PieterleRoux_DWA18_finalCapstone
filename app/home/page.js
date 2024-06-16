@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import Image from "next/image";
 import Link from "next/link";
-import Fuse from "fuse.js"; // Import Fuse.js for fuzzy search
+import Fuse from "fuse.js"; 
 import {
   PlayIcon,
   ChevronRightIcon,
