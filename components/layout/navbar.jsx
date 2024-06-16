@@ -11,7 +11,7 @@ import {
 } from "@/components/appUI/sheet";
 import { useRouter } from "next/navigation";
 import supabase from "@/config/supabaseClient";
-import { Context } from "@/State";
+import { Context } from "@/State/stateIndex";
 
 
 function Navbar() {
