@@ -75,7 +75,7 @@ export default function FavoriteById({ params }) {
     if (params?.id) {
       fetchData(params.id);
     }
-  }, [params?.id, reload, user, router]);
+  },);
 
   if (loading) {
     return (
