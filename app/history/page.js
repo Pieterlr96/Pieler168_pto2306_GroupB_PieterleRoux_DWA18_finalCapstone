@@ -1,3 +1,4 @@
+"use Client";
 import React, { useEffect, useState, useContext } from "react";
 import { Button } from "@/components/appUI/button";
 import Image from "next/image";
