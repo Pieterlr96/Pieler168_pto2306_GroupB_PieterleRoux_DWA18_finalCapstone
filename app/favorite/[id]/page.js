@@ -52,7 +52,7 @@ export default function FavoriteById({ params }) {
     
     const fetchData = async (id) => {
       try {
-        const res = await fetch(`https://podcast-api.netlify.app/id/10716/${id}`);
+        const res = await fetch(`https://podcast-api.netlify.app/id/${id}`);
         if (!res.ok) throw new Error("Failed to fetch data");
 
         const result = await res.json();
