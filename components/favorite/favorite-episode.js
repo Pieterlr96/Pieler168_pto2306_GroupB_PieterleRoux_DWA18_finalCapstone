@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PlayIcon, Heart } from "@radix-ui/react-icons";
 import { Context } from "@/State";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/appUI/button";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
 

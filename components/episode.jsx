@@ -2,14 +2,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PlayIcon, Heart } from "@radix-ui/react-icons";
 import { Context } from "@/State";
-import { Button } from "./ui/button";
+import { Button } from "./appUI/button";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
 const supabase = createClient(
-  "https://tiwhcjqpwqlyrymlcqrk.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpd2hjanFwd3FseXJ5bWxjcXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA5NDc0ODEsImV4cCI6MjAyNjUyMzQ4MX0.FSLuNKMQlNB0wPe-MhlSp3UHC4BT_rxdRxMUTvvNWdU"
+  "https://ixixpvtfdlsrtnyfefdy.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4aXhwdnRmZGxzcnRueWZlZmR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgyMjAwOTYsImV4cCI6MjAzMzc5NjA5Nn0.B1NhD5ASjvNy8--ilVp_7alkeM4gVBMzp487p0AMWks"
 );
 function Episode({ episode, season, showId, showName, showImage,updated }) {
   const { dispatch } = useContext(Context);

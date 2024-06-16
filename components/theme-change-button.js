@@ -5,13 +5,13 @@ import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
 import * as Avatar from "@radix-ui/react-avatar";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/appUI/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/appUI/dropdown-menu";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 
@@ -33,7 +33,7 @@ export function ModeToggle({ setUser }) {
   };
   React.useEffect(() => {
     setTheme("dark");
-  }, []);
+  }, [setTheme]);
   const [open, setOpen] = React.useState(false);
   return (
     <DropdownMenu>

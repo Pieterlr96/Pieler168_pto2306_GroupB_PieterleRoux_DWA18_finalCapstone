@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/appUI/button";
 import Image from "next/image";
 import Link from "next/link";
 import { PlayIcon} from "@radix-ui/react-icons";

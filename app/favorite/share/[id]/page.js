@@ -3,10 +3,10 @@ import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/appUI/button";
 import { Context } from "@/State";
 import Fuse from "fuse.js";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/appUI/input";
 import {
   PlayIcon,
   ChevronRightIcon,
@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
   SelectGroup,
-} from "@/components/ui/select";
+} from "@/components/appUI/select";
 import { useRouter } from "next/navigation";
 
 export default function ShareFavorite({ params }) {

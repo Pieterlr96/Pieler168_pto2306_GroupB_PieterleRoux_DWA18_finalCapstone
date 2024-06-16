@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/appUI/button";
 import React, { useEffect , useState } from "react";
 import Image from "next/image";
 import {
@@ -13,7 +13,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "@/components/appUI/carousel";
 // import Autoplay from "embla-carousel-autoplay"
 import Fuse from 'fuse.js'
 import {
@@ -24,10 +24,10 @@ import {
   SelectTrigger,
   SelectValue,
   SelectGroup,
-} from "@/components/ui/select";
+} from "@/components/appUI/select";
 
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/appUI/input";
 
 
 

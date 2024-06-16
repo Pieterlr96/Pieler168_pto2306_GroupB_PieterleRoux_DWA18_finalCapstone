@@ -2,13 +2,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import { ModeToggle } from "../theme-change-button";
-import { Button } from "../ui/button";
+import { Button } from "../appUI/button";
 import {
   Sheet,
   SheetContent,
   SheetClose,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/components/appUI/sheet";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { Context } from "@/State";
