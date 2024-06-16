@@ -9,7 +9,6 @@ import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/appUI/button";
 import { Context } from "@/State/stateIndex";
 import moment from "moment";
-import Player from "@/components/audio-player/player";
 import FavoriteEpisode from "@/components/favorite/favorite-episode";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +18,7 @@ export default function FavoriteById({ params }) {
   const [favorite, setFavorite] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const { state: { user } } = useContext(Context);
   const router = useRouter();
 
@@ -27,9 +26,9 @@ export default function FavoriteById({ params }) {
     const { data, error } = await supabase
       .from("favoriteList")
       .select()
-      .eq("userId", user.email)
+      .eq("userId", user.id)
       .eq("showId", params.id);
-      
+
     if (error) throw error;
 
     const groupedArray = data.reduce((acc, obj) => {
@@ -49,7 +48,7 @@ export default function FavoriteById({ params }) {
       router.push('/');
       return;
     }
-    
+
     const fetchData = async (id) => {
       try {
         const res = await fetch(`https://podcast-api.netlify.app/id/${id}`);
@@ -57,11 +56,11 @@ export default function FavoriteById({ params }) {
 
         const result = await res.json();
         const updatedArray = await getFavoriteById();
-        
+
         const filteredSeasons = result.seasons.filter(season =>
           updatedArray.some(item => item.season === season.season)
         );
-        
+
         result.seasons = filteredSeasons;
         setData(result);
         setFavorite(updatedArray);
@@ -71,10 +70,11 @@ export default function FavoriteById({ params }) {
         setLoading(false);
       }
     };
+
     if (params?.id) {
       fetchData(params.id);
     }
-  }, [params?.id, reload, user, router,get]);
+  }, [params?.id, reload, user, router]);
 
   if (loading) {
     return (

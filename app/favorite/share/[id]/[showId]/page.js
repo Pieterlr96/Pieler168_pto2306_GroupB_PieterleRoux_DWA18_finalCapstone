@@ -5,72 +5,71 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/appUI/tab
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
-import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/appUI/button";
 import { Context } from "@/State/stateIndex";
 import moment from "moment";
-import Player from "@/components/audio-player/player";
 import ShareFavoriteEpisode from "@/components/favorite/share-favorite";
+import supabase from "@/config/supabaseClient"; // Import Supabase client
 
 export default function FavoriteByIdForShare({ params }) {
   const [reload, setReload] = useState(false);
   const { id, showId } = params;
 
-  const [data, setData] = useState([]);
-  const [favorite, setFavorite] = useState([]);
-  const getFavoriteById = async () => {
-    const { data, error } = await supabase
-      .from("favoriteList")
-      .select()
-      .eq("showId", showId)
-      .eq("userId", decodeURIComponent(id));
-    const groupedArray = {};
-    data.forEach((obj) => {
-      const seasonNo = obj.seasonNo;
-      if (!groupedArray[seasonNo]) {
-        groupedArray[seasonNo] = {
-          season: seasonNo,
-          episodes: [],
-        };
-      }
-      groupedArray[seasonNo].episodes.push(obj);
-    });
-    return Object.values(groupedArray);
-  };
+  const [data, setData] = useState(null); // Change initial state to null
+  const [loading, setLoading] = useState(true);
+  const { user } = useContext(Context);
 
   useEffect(() => {
-    async function getData(id) {
-      const res = await fetch(`https://podcast-api.netlify.app/id/${id}`);
+    if (!user) return;
 
-      if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error("Failed to fetch data");
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        // Fetch data from Supabase
+        const { data: favoriteList, error } = await supabase
+          .from("favoriteList")
+          .select()
+          .eq("showId", showId)
+          .eq("userId", user.id); // Use user.id instead of decodeURIComponent(id)
+
+        if (error) throw error;
+
+        // Fetch additional data about the podcast
+        const res = await fetch(`https://podcast-api.netlify.app/id/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch data");
+        const result = await res.json();
+
+        // Update the state with the fetched data
+        setData({ favoriteList, podcast: result });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const result = await res.json();
-      
-      const updatedArray = await getFavoriteById();
-      
-      const temp = result.seasons.filter((season) => {
-        const found = updatedArray.find((item) => item.season == season.season);
-        if (found) {
-          return true;
-        }
-      });
-      result.seasons = temp;
-      setData(result);
-      setFavorite(updatedArray);
-    }
-    getData(showId);
-  }, [reload]);
+    fetchData();
+  }, [reload, user, id, showId]);
 
-  if (data.length === 0) {
+  if (loading) {
     return (
       <div className="h-[100vh] flex justify-center items-center">
-        <h1 className="text-4xl text-rose-400 ">loading...</h1>
+        <h1 className="text-4xl text-rose-400 ">Loading...</h1>
       </div>
     );
   }
+
+  if (!data) {
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <h1 className="text-4xl text-rose-400">No Data Found</h1>
+      </div>
+    );
+  }
+
+  const { favoriteList, podcast } = data;
+
   return (
     <div className="pt-[65px] bg-gray-950 min-h-[100vh]">
       <Link href={`/favorite/share/${id}`}>
@@ -92,39 +91,39 @@ export default function FavoriteByIdForShare({ params }) {
               priority
               fill
               className="w-full h-full"
-              src={data?.image}
-              alt={data?.title}
+              src={podcast?.image}
+              alt={podcast?.title}
             />
           </div>
         </div>
         <div className="col-span-2 flex flex-col gap-4">
-          <h1 className="text-4xl font-semibold">{data?.title}</h1>
+          <h1 className="text-4xl font-semibold">{podcast?.title}</h1>
           <div className="flex gap-2 items-center">
             <span className="text-sm font-medium">Genres:</span>{" "}
             <div className="flex gap-1 items-center">
-              {data?.genres?.map((genre) => (
+              {podcast?.genres?.map((genre) => (
                 <Badge key={genre} variant="outline">
                   {genre}
                 </Badge>
               ))}
             </div>
           </div>
-          <p className="">{data?.description}</p>
+          <p className="">{podcast?.description}</p>
           <p>
             <span className="text-sm mr-2 font-medium">Last updated:</span>{" "}
-            {data?.updated ? moment(data?.updated).format("LL") : null}{" "}
+            {podcast?.updated ? moment(podcast?.updated).format("LL") : null}{" "}
           </p>
-          {data?.seasons?.length != 0 ? (
+          {favoriteList?.length !== 0 ? (
             <Tabs defaultValue={1} className="">
               <TabsList className="flex-wrap justify-start h-auto w-full">
-                {data?.seasons?.map((season) => (
-                  <TabsTrigger key={season?.season} value={season?.season}>
+                {favoriteList?.map((season) => (
+                  <TabsTrigger key={season?.seasonNo} value={season?.seasonNo}>
                     {season?.title}
                   </TabsTrigger>
                 ))}
               </TabsList>
-              {data?.seasons?.map((season) => (
-                <TabsContent key={season?.season} value={season?.season}>
+              {favoriteList?.map((season) => (
+                <TabsContent key={season?.seasonNo} value={season?.seasonNo}>
                   <ul className="py-3">
                     {season?.episodes?.map((episode) => (
                       <ShareFavoriteEpisode
@@ -132,7 +131,7 @@ export default function FavoriteByIdForShare({ params }) {
                         episode={episode}
                         season={season}
                         showId={showId}
-                        showName={data?.title}
+                        showName={podcast?.title}
                         reload={reload}
                         setReload={setReload}
                       />

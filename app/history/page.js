@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState, useContext } from "react";
 import { Button } from "@/components/appUI/button";
 import Image from "next/image";
@@ -6,6 +5,7 @@ import Link from "next/link";
 import { PlayIcon} from "@radix-ui/react-icons";
 import { Context } from "@/State/stateIndex";
 import { useRouter } from "next/navigation";
+import supabase from "@/config/supabaseClient";
 
 export default function HistoryPage() {
   const router = useRouter();
@@ -14,19 +14,34 @@ export default function HistoryPage() {
   } = useContext(Context);
   const { dispatch } = useContext(Context);
   const [history, setHistory] = useState([]);
+
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("history"));
-    console.log("-------->history", data);
-    if (!data) return;
-    setHistory(data);
-  }, []);
-  const resetHistory = () => {
-    localStorage.removeItem("history");
-    setHistory([]);
+    async function fetchHistory() {
+      if (!user) return;
+      try {
+        const { data, error } = await supabase
+          .from("listeningHistory")
+          .select()
+          .eq("userId", user.email);
+        if (error) throw error;
+        setHistory(data);
+      } catch (error) {
+        console.error("Error fetching listening history:", error.message);
+      }
+    }
+    fetchHistory();
+  }, [user]);
+
+  const resetHistory = async () => {
+    try {
+      await supabase.from("listeningHistory").delete().eq("userId", user.email);
+      setHistory([]);
+    } catch (error) {
+      console.error("Error resetting history:", error.message);
+    }
   };
+
   const handleEpisodeClick = (item) => {
-    // alert("Episode clicked");
-    // console.log("item: ------->> ", item);
     dispatch({ type: "Play", payload: item });
     dispatch({
       type: "Season",
@@ -39,6 +54,7 @@ export default function HistoryPage() {
       },
     });
   };
+
   const formatTime = (time) => {
     if (time && !isNaN(time)) {
       const minutes = Math.floor(time / 60);
@@ -49,11 +65,12 @@ export default function HistoryPage() {
     }
     return "00:00";
   };
+
   useEffect(() => {
     if (!user) {
       router.push("/");
     }
-  }, [user]);
+  }, [router, user]);
 
   return (
     <div className="pt-24 min-h-[100vh] bg-gray-950">

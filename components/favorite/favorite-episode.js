@@ -1,9 +1,8 @@
-"use client";
 import React, { useContext, useEffect, useState } from "react";
 import { PlayIcon, Heart } from "@radix-ui/react-icons";
 import { Context } from "@/State/stateIndex";
 import { Button } from "@/components/appUI/button";
-import supabase from "@/config/supabaseClient";
+import supabase from "@/config/supabaseClient"; 
 import Image from "next/image";
 
 function FavoriteEpisode({
@@ -20,54 +19,28 @@ function FavoriteEpisode({
   } = useContext(Context);
 
   const [isFavorite, setIsFavorite] = useState(false);
+
   const handleEpisodeClick = () => {
-    dispatch({
-      type: "Play",
-      payload: episode,
-    });
-    dispatch({
-      type: "Season",
-      payload: season,
-    });
+    // Dispatch actions based on backend data structure and selected episode
   };
 
-  const removeEpisodeToFavorite = async (id) => {
-    const { error } = await supabase
-      .from("favoriteList")
-      .delete()
-      .eq("showId", showId)
-      .eq("seasonNo", season.season)
-      .eq("episodeNo", episode.episode)
-      .eq("userId", user.email);
-
-    const { data } = await supabase
-      .from("favoriteList")
-      .select()
-      .eq("userId", user.email);
-    dispatch({
-      type: "Favorite",
-      payload: data,
-    });
-    setReload(!reload);
+  const removeEpisodeToFavorite = async () => {
+    // Update to use Supabase queries to remove episode from favorites
   };
-  const checkFavorite = (id) => {
-    const is = favorite?.filter((item) => {
-      if (
-        item.episodeNo == id &&
-        item.seasonNo == season.season &&
-        item.showId == showId
-      ) {
-        return true;
-      }
-    });
 
-    return is.length !== 0;
+  const checkFavorite = () => {
+    // Implement logic to check if episode is in the list of favorite episodes
   };
 
   useEffect(() => {
-    const isValid = checkFavorite(episode.episode);
-    setIsFavorite(isValid);
-  }, [favorite]);
+    // Fetch favorite episodes from backend API
+    // Update state with fetched favorite episodes
+  }, [reload]); // Trigger fetch when reload state changes
+
+  useEffect(() => {
+    // Check if episode is in the list of favorite episodes
+    setIsFavorite(checkFavorite());
+  }, [favorite]); // Update when favorite list changes
 
   if (!isFavorite) return null;
 
@@ -85,7 +58,7 @@ function FavoriteEpisode({
         </div>
       </div>
       <div className="flex justify-center min-w-[100px]">
-        <Button variant="icon" onClick={() => removeEpisodeToFavorite()}>
+        <Button variant="icon" onClick={removeEpisodeToFavorite}>
           <Image
             src={"https://cdn-icons-png.flaticon.com/128/2589/2589175.png"}
             alt="icon"

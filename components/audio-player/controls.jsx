@@ -15,7 +15,6 @@ function Controls({
   audioFile,
   duration,
   setDuration,
-  timeProgress,
   setTimeProgress,
   progressBarRef,
   volume,

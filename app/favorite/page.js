@@ -16,7 +16,6 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
   SelectGroup,
@@ -33,7 +32,7 @@ import toast from 'react-hot-toast';
 
 export default function Favorite() {
   const {
-    state: { favorite , user },
+    state: { user },
   } = useContext(Context);
   const router = useRouter();
   const [data, setData] = useState([]);
@@ -55,6 +54,7 @@ export default function Favorite() {
 
     setData(searchResult);
   }
+
   async function sortByTitle(sortType) {
     setIsLoading(true);
     const sortedData = data;
@@ -70,26 +70,33 @@ export default function Favorite() {
       console.log("Invalid sort type");
     }
     setData(sortedData);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    setIsLoading(false);
   }
 
   useEffect(() => {
-    function getUniqueShows(data) {
-      const uniqueShowIds = new Set();
-      return data.filter((obj) => {
-        if (!uniqueShowIds.has(obj.showId)) {
-          uniqueShowIds.add(obj.showId);
-          return true;
-        }
-        return false;
-      });
+    async function fetchFavoriteShows() {
+      try {
+        const { data, error } = await supabase
+          .from("favoriteList")
+          .select()
+          .eq("userId", user.email);
+        if (error) throw error;
+        const uniqueShowIds = new Set();
+        const uniqueShows = data.filter((obj) => {
+          if (!uniqueShowIds.has(obj.showId)) {
+            uniqueShowIds.add(obj.showId);
+            return true;
+          }
+          return false;
+        });
+        setData(uniqueShows);
+        setPodcast(uniqueShows);
+      } catch (error) {
+        console.error("Error fetching favorite shows:", error.message);
+      }
     }
-    const favoriteData = getUniqueShows(favorite);
-    setData(favoriteData);
-    setPodcast(favoriteData);
-  }, [favorite]);
+    fetchFavoriteShows();
+  }, [user]);
 
   useEffect(()=>{
     if(!user){
@@ -175,7 +182,7 @@ export default function Favorite() {
               No Favorite Shows
             </div>
           )}
-          <div className="grid grid-cols-1 min-[520px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x- gap-y-8  justify-between">
+                   <div className="grid grid-cols-1 min-[520px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x- gap-y-8  justify-between">
             {data?.map((show) => (
               <Link
                 href={`/favorite/${show?.showId}`}
@@ -203,3 +210,4 @@ export default function Favorite() {
     </div>
   );
 }
+

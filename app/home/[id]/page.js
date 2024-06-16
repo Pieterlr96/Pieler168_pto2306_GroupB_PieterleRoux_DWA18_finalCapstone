@@ -1,7 +1,5 @@
-"use client";
 import { Badge } from "@/components/appUI/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/appUI/tabs";
-
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -12,39 +10,44 @@ import { Button } from "@/components/appUI/button";
 import { useRouter } from "next/navigation";
 import { waveform } from "ldrs";
 import toast from 'react-hot-toast';
+import supabase from "@/config/supabaseClient"; // Import Supabase client
 waveform.register();
-
-// Default values shown
 
 export default function Page({ params }) {
   const router = useRouter();
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+
   useEffect(() => {
     async function getData(id) {
-      const res = await fetch(`https://podcast-api.netlify.app/id/${id}`);
-
-      if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        // throw new Error("Failed to fetch data");
+      try {
+        const { data, error } = await supabase
+          .from("podcasts")
+          .select("*")
+          .eq("id", id)
+          .single(); // Assuming each podcast has a unique ID
+        if (error) {
+          console.error("Error fetching podcast data:", error.message);
+          throw error;
+        }
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching podcast data:", error.message);
         router.push("/");
       }
-
-      const result = await res.json();
-      setData(result);
-      setLoading(false);
     }
     getData(params?.id);
-  }, [params]);
-  //   console.log(data);
+  }, [params, router]);
+
   if (loading) {
     return (
       <div className="h-[100vh] flex justify-center items-center">
-
-      <l-waveform size="35" stroke="3.5" speed="1" color="white"></l-waveform>
+        <l-waveform size="35" stroke="3.5" speed="1" color="white"></l-waveform>
       </div>
     );
   }
+
   return (
     <div className="pt-[65px] bg-gray-950">
       <Link href="/">

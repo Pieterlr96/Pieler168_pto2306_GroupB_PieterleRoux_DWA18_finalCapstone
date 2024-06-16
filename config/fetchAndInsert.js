@@ -1,3 +1,5 @@
+// config/fetchAndInsert.js
+
 import supabase from '@/config/supabaseClient';
 import fetch from 'node-fetch';
 
@@ -7,10 +9,13 @@ export default async function handler(req, res) {
       const response = await fetch('https://podcast-api.netlify.app/id/10716');
       const data = await response.json();
 
+      // Check if the data is in an array format, if not wrap it in an array
+      const podcasts = Array.isArray(data) ? data : [data];
+
       // Insert data into Supabase
       const { error } = await supabase
-        .from('podcasts')  // Ensure this matches your table name
-        .insert(data);
+        .from('podcasts')
+        .insert(podcasts);
 
       if (error) {
         console.error('Error inserting data:', error);

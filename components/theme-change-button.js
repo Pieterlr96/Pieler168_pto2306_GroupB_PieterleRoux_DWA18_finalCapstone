@@ -1,9 +1,4 @@
-"use client";
-
 import * as React from "react";
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { useTheme } from "next-themes";
-import * as Avatar from "@radix-ui/react-avatar";
 import Link from "next/link";
 import { Button } from "@/components/appUI/button";
 import {
@@ -12,29 +7,27 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/appUI/dropdown-menu";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "@/config/supabaseClient";
 import { useRouter } from "next/navigation";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-
 export function ModeToggle({ setUser }) {
-  const { setTheme } = useTheme();
   const router = useRouter();
+
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-    localStorage.removeItem("history");
-    sessionStorage.removeItem("user");
-    router.push("/");
-    setUser(null);
+    try {
+      await supabase.auth.signOut();
+      // Additional backend operations (if needed)
+      localStorage.removeItem("history");
+      sessionStorage.removeItem("user");
+      router.push("/");
+      setUser(null);
+    } catch (error) {
+      console.error("Error logging out:", error.message);
+    }
   };
-  React.useEffect(() => {
-    setTheme("dark");
-  }, [setTheme]);
+
   const [open, setOpen] = React.useState(false);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

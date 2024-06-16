@@ -1,3 +1,5 @@
+// pages/index.js
+
 import fetch from 'node-fetch';
 
 export async function getStaticProps() {
@@ -27,3 +29,4 @@ export default function Home({ podcasts }) {
     </div>
   );
 }
+

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useRouter } from "next/navigation";
@@ -8,34 +8,36 @@ import supabase from "@/config/supabaseClient";
 
 export default function AuthPage() {
   const router = useRouter();
-  supabase.auth.onAuthStateChange( async (event, session) => {
-    // console.log(event, session);
 
-    if (event === "INITIAL_SESSION") {
-      // router.push("/");
-      // handle initial session
-    } else if (event === "SIGNED_IN") {
-      const isUser = sessionStorage.getItem("user");
-      if(!isUser){
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        const user = session.user;
+        const { data, error } = await supabase.from("users").upsert([
+          {
+            id: user.id,
+            email: user.email,
+            username: user.email.split('@')[0], // Default username
+          }
+        ]);
 
-        sessionStorage.setItem("user", JSON.stringify(session.user));
-        router.push("/");
-        // router.refresh();
+        if (error) {
+          console.error("Error upserting user:", error);
+        } else {
+          sessionStorage.setItem("user", JSON.stringify(user));
+          router.push("/");
+        }
+      } else if (event === "SIGNED_OUT") {
+        sessionStorage.removeItem("user");
+        router.push("/login");
       }
-      // handle sign in event
-    } else if (event === "SIGNED_OUT") {
-      // handle sign out event
-    } else if (event === "PASSWORD_RECOVERY") {
-      // handle password recovery event
-    } else if (event === "TOKEN_REFRESHED") {
-      // handle token refreshed event
-    } else if (event === "USER_UPDATED") {
-      // handle user updated event
-    }
-  });
-  // call unsubscribe to remove the callback
-  // data.subscription.unsubscribe();
-  
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, [router]);
+
   return (
     <div className="flex justify-center items-center h-[100vh]">
       <div className="w-[400px] mx-4">
@@ -55,13 +57,12 @@ export default function AuthPage() {
               },
             },
           }}
-          // link_text={()=>router.push("/register")}
           showLinks={false}
           theme="dark"
         />
         <Link href='/login'>
           <p className="text-center text-sm hover:text-blue-400 mt-2">
-            Already have an account ? Sign in.
+            Already have an account? Sign in.
           </p>
         </Link>
       </div>
