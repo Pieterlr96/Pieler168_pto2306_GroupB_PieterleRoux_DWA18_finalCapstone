@@ -93,11 +93,8 @@ function Controls({
       }, 100);
     }
     console.log("event: ", { audio: audioRef.current.currentTime });
-  }, [isPlaying]);
-  // useEffect(()=>{
-  //   audioRef.current.play();
-  //   playAnimationRef.current = requestAnimationFrame(repeat);
-  // },[])
+  }, );
+
 
   return (
     <>

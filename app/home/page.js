@@ -30,9 +30,9 @@ import { Input } from "@/components/appUI/input";
 export default function HomePage() {
   const router = useRouter();
   const [data, setData] = useState([]);
-  const [podcast, setPodcast] = useState([]); // Added state for original podcast data
-  const [search, setSearch] = useState(""); // Added state for search term
-  const [isLoading, setIsLoading] = useState(false); // Added state for loading indicator
+  const [podcast, setPodcast] = useState([]); 
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false); 
 
   useEffect(() => {
     // Function to fetch data from the database

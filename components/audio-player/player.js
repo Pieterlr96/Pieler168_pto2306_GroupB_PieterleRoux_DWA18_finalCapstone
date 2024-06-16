@@ -68,7 +68,7 @@ function Player() {
     }
     setTimeProgress(0);
     audioRef.current.currentTime = 0;
-  }, [episode, season]);
+  }, );
 
   useEffect(()=>{
     // console.log("season: ", season);

@@ -69,13 +69,13 @@ export default function FavoriteById({ params }) {
       setFavorite(updatedArray);
     }
     getData(params?.id);
-  }, [reload]);
+  }, );
 
   useEffect(()=>{
     if(!user){
       router.push('/')
     }
-  },[user])
+  },)
 
   if (data.length === 0) {
     return (
