@@ -4,7 +4,7 @@ import { Button } from "@/components/appUI/button";
 import Image from "next/image";
 import Link from "next/link";
 import { PlayIcon} from "@radix-ui/react-icons";
-import { Context } from "@/State";
+import { Context } from "@/State/stateIndex";
 import { useRouter } from "next/navigation";
 
 export default function HistoryPage() {

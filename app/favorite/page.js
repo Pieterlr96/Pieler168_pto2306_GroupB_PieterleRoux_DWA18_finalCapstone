@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/appUI/button";
-import { Context } from "@/State";
+import { Context } from "@/State/stateIndex";
 import Fuse from "fuse.js";
 import { Input } from "@/components/appUI/input";
 import {

@@ -7,7 +7,7 @@ import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
 import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/appUI/button";
-import { Context } from "@/State";
+import { Context } from "@/State/stateIndex";
 import moment from "moment";
 import Player from "@/components/audio-player/player";
 import FavoriteEpisode from "@/components/favorite/favorite-episode";
