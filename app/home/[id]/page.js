@@ -1,16 +1,16 @@
+import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/appUI/badge";
 const { Tabs, TabsContent, TabsList, TabsTrigger } = React.lazy(() =>
   import("@/components/appUI/tabs")
 );
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
 import moment from "moment";
 import Episode from "@/components/episode";
 import { Button } from "@/components/appUI/button";
 import { useRouter } from "next/navigation";
 import { waveform } from "ldrs";
-import supabase from "@/config/supabaseClient"; // Import Supabase client
+import supabase from "@/config/supabaseClient"; 
 waveform.register();
 
 export default function Page({ params }) {
