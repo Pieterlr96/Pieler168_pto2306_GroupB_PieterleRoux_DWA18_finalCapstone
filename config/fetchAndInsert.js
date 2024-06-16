@@ -1,4 +1,4 @@
-import supabase from '../../lib/supabaseClient';
+import supabase from '@/config/supabaseClient';
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
