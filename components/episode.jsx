@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { PlayIcon, Heart } from "@radix-ui/react-icons";
-import { Context } from "@/State";
-import { Button } from "./appUI/button";
+import { Context } from "@/State/stateIndex";
+import { Button } from "@/components/appUI/button";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import supabase from "@/config/supabaseClient";

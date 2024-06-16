@@ -2,10 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PlayIcon, Heart } from "@radix-ui/react-icons";
 import { Context } from "@/State/stateIndex";
-import { Button } from "@/components/appUI/buttonn";
-import supabase from "@/config/supabaseClient";
-import Image from "next/image";
-
+import { Button } from "@/components/appUI/button";
 
 function ShareFavoriteEpisode({
   episode,

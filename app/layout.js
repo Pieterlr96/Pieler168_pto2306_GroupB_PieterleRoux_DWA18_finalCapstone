@@ -17,7 +17,7 @@ export const metadata = {
 // }
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { Provider } from "@/State";
+import { Provider } from "@/State/stateIndex";
 
 export default function RootLayout({ children }) {
   return (
