@@ -1,13 +1,13 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/appUI/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/appUI/tabs";
 
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { Button } from "@/components/ui/button";
-import { Context } from "@/context";
+import { Button } from "@/components/appUI/button";
+import { Context } from "@/State/stateIndex";
 import moment from "moment";
 import Player from "@/components/audio-player/player";
 import FavoriteEpisode from "@/components/favorite/favorite-episode";
