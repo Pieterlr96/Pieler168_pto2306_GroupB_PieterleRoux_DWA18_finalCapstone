@@ -89,13 +89,13 @@ export default function Favorite() {
     const favoriteData = getUniqueShows(favorite);
     setData(favoriteData);
     setPodcast(favoriteData);
-  }, []);
+  }, [favorite]);
 
   useEffect(()=>{
     if(!user){
       router.push('/')
     }
-  },[user])
+  },[router,user])
 
   return (
     <div className="pt-[70px] bg-gray-950 min-h-[100vh]">

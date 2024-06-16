@@ -3,14 +3,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { PlayIcon, Heart } from "@radix-ui/react-icons";
 import { Context } from "@/State";
 import { Button } from "./appUI/button";
-import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import supabase from "@/config/supabaseClient";
 
-const supabase = createClient(
-  "https://ixixpvtfdlsrtnyfefdy.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4aXhwdnRmZGxzcnRueWZlZmR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgyMjAwOTYsImV4cCI6MjAzMzc5NjA5Nn0.B1NhD5ASjvNy8--ilVp_7alkeM4gVBMzp487p0AMWks"
-);
 function Episode({ episode, season, showId, showName, showImage,updated }) {
   const { dispatch } = useContext(Context);
   const {
@@ -28,7 +24,6 @@ function Episode({ episode, season, showId, showName, showImage,updated }) {
       type: "Season",
       payload: { ...season, showId, showName, showImage },
     });
-    // console.log("---->", { episode, season });
   };
 
   const addEpisodeToFavorite = async (id) => {

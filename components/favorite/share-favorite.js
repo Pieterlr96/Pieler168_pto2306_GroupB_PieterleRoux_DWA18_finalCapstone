@@ -3,13 +3,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { PlayIcon, Heart } from "@radix-ui/react-icons";
 import { Context } from "@/State";
 import { Button } from "@/components/appUI/buttonn";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "@/config/supabaseClient";
 import Image from "next/image";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+
 function ShareFavoriteEpisode({
   episode,
   season,

@@ -1,9 +1,7 @@
 "use client";
 import { createContext, useReducer, useEffect,useContext } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { duration } from "moment";
-// import axios from "axios";
-// import { useRouter } from "next/router";
+
 
 const initialState = {
   season: null,

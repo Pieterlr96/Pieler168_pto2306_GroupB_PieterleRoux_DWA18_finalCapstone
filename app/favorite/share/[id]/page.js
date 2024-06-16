@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/appUI/button";
 import { Context } from "@/State";
 import Fuse from "fuse.js";
@@ -24,10 +24,6 @@ import { useRouter } from "next/navigation";
 
 export default function ShareFavorite({ params }) {
   const { id } = params;
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
   const [favorite, setFavorite] = useState([]);
   const router = useRouter();
   const [data, setData] = useState([]);
