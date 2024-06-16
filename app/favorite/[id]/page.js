@@ -120,8 +120,8 @@ export default function FavoriteById({ params }) {
           <div className="h-60 relative w-auto aspect-auto">
             <Image
               priority
-              fill
-              className="w-full h-full"
+              layout="fill"
+              className="w-full h-full object-cover" 
               src={data?.image}
               alt={data?.title}
             />
