@@ -1,5 +1,5 @@
 "use Client";
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import { Button } from "@/components/appUI/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +11,7 @@ export default function HistoryPage() {
   const {
     state: { user },
     dispatch,
-  } = useContext(Context);
+  } = Context(Context);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
